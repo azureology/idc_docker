@@ -1,4 +1,5 @@
-FROM linuxserver/webtop:ubuntu-xfce-ff2bbdbe-ls136
+#FROM linuxserver/webtop:ubuntu-xfce-ff2bbdbe-ls136
+FROM linuxserver/webtop:ubuntu-mate-fb115d90-ls175
 ENV DEBIAN_FRONTEND=noninteractive
 ADD ./sources.list /etc/apt/sources.list
 RUN apt-get update && \

@@ -1,14 +1,11 @@
-FROM linuxserver/webtop:ubuntu-mate-2be81aee-ls141
-ENV DEBIAN_FRONTEND=noninteractive
-ADD ./sources.list /etc/apt/sources.list
-RUN apt-get update && \
-    apt-get install -y tzdata sudo build-essential vim git cmake python3-pip clang-format \
-    mono-runtime openjdk-11-jdk openjdk-8-jre-headless mesa-common-dev freeglut3 \
-    freeglut3-dev libgles2-mesa-dev libjpeg-dev libpng-dev libdrm-dev llvm clang \
-    libc++1 libc++abi1 zsh wget curl libqt5charts5-dev unzip usrmerge zip sshpass \
-    libgtk2.0-dev libtinfo5 checkpolicy lz4 ccache flex bison libyaml-dev libssl-dev \
-    qtbase5-dev qt5-qmake libqt5charts5-dev && \
-    ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
-    dpkg-reconfigure -f noninteractive tzdata && \
-    apt-get clean && rm -rf /var/lib/apt/lists/* 
-RUN pip3 install -i https://pypi.mirrors.ustc.edu.cn/simple/ gitpython atomicwrites numpy ujson pysmb openpyxl requests
+FROM jlesage/baseimage-gui:ubuntu-22.04-v4
+ENV DEBIAN_FRONTEND=noninteractive \
+    DISPLAY_WIDTH=1280 DISPLAY_HEIGHT=720 \
+    TZ=Asia/Shanghai APP_NAME=XMT \
+    DISPLAY=:0 SERVICES_GRACETIME=500 \
+    WEB_LISTENING_PORT=-1
+RUN sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.list && \
+    apt update && apt install -y --no-install-recommends \
+    libqt5printsupport5 libqt5charts5 xdotool && \
+    rm -rf /var/cache/apt/archives /var/lib/apt/lists && \
+    ln -sf /home/ubuntu/zx/run_prediction.sh /startapp.sh
